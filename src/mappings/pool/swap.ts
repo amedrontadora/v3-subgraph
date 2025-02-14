@@ -245,7 +245,7 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
     // Update inner vars of current or crossed ticks
     const newTick = pool.tick
     if (oldTick && newTick) {
-      const tickSpacing = feeTierToTickSpacing(pool.feeTier)
+      const tickSpacing = pool.tickSpacing
       const modulo = newTick.mod(tickSpacing)
       if (modulo.equals(ZERO_BI)) {
         // Current tick is initialized and needs to be updated
