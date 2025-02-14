@@ -1,8 +1,7 @@
 import { BigInt, ethereum } from '@graphprotocol/graph-ts'
 
-import { Pool as PoolABI } from '../../types/Factory/Pool'
 import { Bundle, Factory, Mint, Pool, Tick, Token } from '../../types/schema'
-import { Mint as MintEvent } from '../../types/templates/Pool/Pool'
+import { Mint as MintEvent, Pool as PoolABI } from '../../types/templates/Pool/Pool'
 import { convertTokenToDecimal, loadTransaction } from '../../utils'
 import { getSubgraphConfig, SubgraphConfig } from '../../utils/chains'
 import { ONE_BI } from '../../utils/constants'

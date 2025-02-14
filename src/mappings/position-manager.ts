@@ -29,7 +29,8 @@ function getPosition(
     // in calls from  BancorSwap
     // (e.g. 0xf7867fa19aa65298fadb8d4f72d0daed5e836f3ba01f0b9b9631cdc6c36bed40)
     if (!positionCall.reverted) {
-      const factoryContract = Factory.bind(Address.fromString(subgraphConfig.factoryAddress))
+      const factoryAddress = subgraphConfig.factoryAddress
+      const factoryContract = Factory.bind(Address.fromString(factoryAddress))
       let positionResult = positionCall.value
       let poolAddress = factoryContract.getPool(positionResult.value2, positionResult.value3, positionResult.value4)
 
@@ -89,19 +90,11 @@ function savePositionSnapshot(position: Position, event: ethereum.Event): void {
 
 export function handleIncreaseLiquidity(event: IncreaseLiquidity): void {
   // temp fix
-  if (event.block.number.equals(BigInt.fromI32(14317993))) {
-    return
-  }
 
   let position = getPosition(event, event.params.tokenId)
 
   // position was not able to be fetched
   if (position == null) {
-    return
-  }
-
-  // temp fix
-  if (Address.fromString(position.pool).equals(Address.fromHexString('0x8fe8d9bb8eeba3ed688069c3d6b556c9ca258248'))) {
     return
   }
 
@@ -125,20 +118,10 @@ export function handleIncreaseLiquidity(event: IncreaseLiquidity): void {
 }
 
 export function handleDecreaseLiquidity(event: DecreaseLiquidity): void {
-  // temp fix
-  if (event.block.number == BigInt.fromI32(14317993)) {
-    return
-  }
-
   let position = getPosition(event, event.params.tokenId)
 
   // position was not able to be fetched
   if (position == null) {
-    return
-  }
-
-  // temp fix
-  if (Address.fromString(position.pool).equals(Address.fromHexString('0x8fe8d9bb8eeba3ed688069c3d6b556c9ca258248'))) {
     return
   }
 
@@ -165,10 +148,6 @@ export function handleCollect(event: Collect): void {
   if (position == null) {
     return
   }
-  if (Address.fromString(position.pool).equals(Address.fromHexString('0x8fe8d9bb8eeba3ed688069c3d6b556c9ca258248'))) {
-    return
-  }
-
   let token0 = Token.load(position.token0)
 
   if (token0) {
